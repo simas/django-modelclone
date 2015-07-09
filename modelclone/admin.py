@@ -26,7 +26,7 @@ class ClonableModelAdmin(ModelAdmin):
         Method to be used on `list_display`, renders a link to clone model
         '''
         _url = reverse('admin:{0}_{1}_clone'.format(clonable_model._meta.app_label,
-                                                    clonable_model._meta.module_name),
+                                                    clonable_model._meta.object_name.lower()),
                       args=(clonable_model._get_pk_val(),),
                       current_app=self.admin_site.name)
         return '<a href="{0}">{1}</a>'.format(_url, self.clone_verbose_name)
@@ -37,7 +37,7 @@ class ClonableModelAdmin(ModelAdmin):
     def get_urls(self):
         url_name = '{0}_{1}_clone'.format(
             self.model._meta.app_label,
-            self.model._meta.module_name)   # NOTE: Django 1.5 uses model_name here
+            self.model._meta.object_name.lower())   # NOTE: Django 1.5 uses model_name here
         new_urlpatterns = patterns('',
             url(r'^(.+)/clone/$',
                 self.admin_site.admin_view(self.clone_view),
