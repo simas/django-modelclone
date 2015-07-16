@@ -132,7 +132,7 @@ class ClonableModelAdmin(ModelAdmin):
                 if prefixes[prefix] != 1 or not prefix:
                     prefix = "%s-%s" % (prefix, prefixes[prefix])
                 initial = []
-                queryset = inline.queryset(request).filter(
+                queryset = inline.get_queryset(request).filter(
                     **{FormSet.fk.name: original_obj})
                 for obj in queryset:
                     initial.append(model_to_dict(obj, exclude=[obj._meta.pk.name,
